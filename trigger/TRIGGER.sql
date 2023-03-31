@@ -33,7 +33,7 @@ BEGIN
       INV.수량_출고완료 = MANG.수량_출고완료,
       INV.사진_1 = PROD.사진_1,
       INV.사진_2 = PROD.사진_2,
-	  INV.사진_3 = PROD.사진_3,
+      INV.사진_3 = PROD.사진_3,
       INV.사진_4 = PROD.사진_4,
       INV.사진_5 = PROD.사진_5,
       INV.인화성 = PROD.인화성,
