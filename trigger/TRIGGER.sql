@@ -6,7 +6,7 @@ FOR EACH ROW
 BEGIN
   UPDATE UW1_재고 AS INV
     JOIN UW1_관리번호 AS MANG ON INV.관리번호 = MANG.관리번호
-    JOIN 제품번호 AS PROD ON PROD.제품번호 = SUBSTRING_INDEX(INV.관리번호, '_', 1)
+    JOIN 제품번호 AS PROD ON PROD.제품번호 = SUBSTRING_INDEX(INV.관리번호, '_', 1);
   SET
       INV.제품번호 = SUBSTRING_INDEX(INV.관리번호, '_', 1),
       INV.제품구분번호 = SUBSTRING_INDEX(INV.관리번호, '_', -1),
@@ -37,8 +37,8 @@ BEGIN
       INV.사진_4 = PROD.사진_4,
       INV.사진_5 = PROD.사진_5,
       INV.인화성 = PROD.인화성,
-      INV.추가_상태_1 = MANG.추가_상태_1
-      INV.추가_상태_2 = MANG.추가_상태_2
+      INV.추가_상태_1 = MANG.추가_상태_1,
+      INV.추가_상태_2 = MANG.추가_상태_2,
       INV.추가_상태_3 = MANG.추가_상태_3
   WHERE
     INV.관리번호 = NEW.관리번호;
