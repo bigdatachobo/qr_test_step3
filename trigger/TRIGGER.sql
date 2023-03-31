@@ -1,12 +1,13 @@
-DELIMITER $$
 USE VMStset;
+
+DELIMITER $$
 CREATE TRIGGER fill_UW1_재고_columns
 AFTER INSERT ON UW1_재고 -- 관리번호열에 데이터가 입력시 트리거 발동 
 FOR EACH ROW
 BEGIN
   UPDATE UW1_재고 AS INV
     JOIN UW1_관리번호 AS MANG ON INV.관리번호 = MANG.관리번호
-    JOIN 제품번호 AS PROD ON PROD.제품번호 = SUBSTRING_INDEX(INV.관리번호, '_', 1);
+    JOIN 제품번호 AS PROD ON PROD.제품번호 = SUBSTRING_INDEX(INV.관리번호, '_', 1)
   SET
       INV.제품번호 = SUBSTRING_INDEX(INV.관리번호, '_', 1),
       INV.제품구분번호 = SUBSTRING_INDEX(INV.관리번호, '_', -1),
