@@ -11,7 +11,7 @@ BEGIN
       INV.제품번호 = SUBSTRING_INDEX(INV.관리번호, '_', 1),
       INV.제품구분번호 = SUBSTRING_INDEX(INV.관리번호, '_', -1),
       INV.QR코드 = MANG.QR코드,
-	  INV.제품사 = PROD.제품사,
+      INV.제품사 = PROD.제품사,
       INV.구매처 = MANG.구매처,
       INV.구분 = PROD.구분,
       INV.제품명 = PROD.제품명,
