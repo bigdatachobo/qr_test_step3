@@ -87,18 +87,18 @@ class _QRScannerPageState extends State<QRScannerPage> {
     final emptySpaces = await getEmptySpaces();
     if (emptySpaces.isEmpty) {
       showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-              title: const Text('Error'),
-              content: const Text('No empty spaces available.'),
-              actions: [
-              TextButton(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('No empty spaces available.'),
+          actions: [
+            TextButton(
               onPressed: () => Navigator.of(context).pop(),
 
-                child: const Text('OK'),
-              ),
-              ],
-          ),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
       );
     } else {
       // Show empty spaces and let the user choose a new location
@@ -126,28 +126,35 @@ class _QRScannerPageState extends State<QRScannerPage> {
           builder: (context) => EmptySpacePage(),
         ),
       ).then((selectedLocationKey) async {
-      await addOrUpdateItem(code, widget.selectedLocationKey!);
-      await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Success'),
-          content: const Text('입고 완료'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
-      // ignore: use_build_context_synchronously
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(),
-        ),
-            (route) => false,
-      );
+        await addOrUpdateItem(code, selectedLocationKey);
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Success'),
+            content: const Text('입고 완료'),
+            actions: [
+              TextButton(
+                onPressed: (){
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
+                    ),
+                        (route) => false,
+                  );
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+        // ignore: use_build_context_synchronously
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+              (route) => false,
+        );
 
       });
     } else {
