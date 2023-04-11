@@ -8,13 +8,13 @@ import 'empty_space.dart';
 import 'home_page.dart';
 
 class QRScannerPage extends StatefulWidget {
-  final bool? isInbound;
+  final bool isInbound;
   final bool isMoving;
   final String? selectedLocationKey;
 
   QRScannerPage({
     required this.isInbound,
-    this.isMoving = false,
+    required this.isMoving,
     this.selectedLocationKey,
   });
 
@@ -48,7 +48,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
         if (pattern.hasMatch(scanData.code!)) {
           _isQRCodeDetected = true;
           _controller?.pauseCamera();
-          if (widget.isMoving) {
+          if (widget.isMoving && !widget.isInbound) {
             processMove(context, scanData.code!);
           } else {
             processQRCode(context, scanData.code!, widget.isInbound);
@@ -86,7 +86,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
     // Get empty spaces
     final emptySpaces = await getEmptySpaces();
     if (emptySpaces.isEmpty) {
-      await showDialog(
+      showDialog(
           context: context,
           builder: (context) => AlertDialog(
               title: const Text('Error'),
@@ -118,13 +118,67 @@ class _QRScannerPageState extends State<QRScannerPage> {
     }
   }
 
-  Future<void> processQRCode(BuildContext context, String code, bool? isInbound) async {
-    if (isInbound == true) {
+  Future<void> processQRCode(BuildContext context, String code, bool isInbound) async {
+    if (isInbound) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EmptySpacePage(),
+        ),
+      ).then((selectedLocationKey) async {
       await addOrUpdateItem(code, widget.selectedLocationKey!);
-    } else if( isInbound == false) {
+      await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Success'),
+          content: const Text('입고 완료'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+      // ignore: use_build_context_synchronously
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+            (route) => false,
+      );
+
+      });
+    } else {
+      // Set item as "출하" in the database
       await setItemAsOutbound(code);
+      // ignore: use_build_context_synchronously
+      await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Success'),
+          content: const Text('출고 완료'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+      // ignore: use_build_context_synchronously
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+            (route) => false,
+      );
     }
-    Navigator.of(context).pop(true);
+    setState(() {
+      _isQRCodeDetected = false;
+    });
   }
 
   @override
@@ -134,19 +188,39 @@ class _QRScannerPageState extends State<QRScannerPage> {
         title: const Text('QR Scanner'),
       ),
       body: Stack(
-        children: <Widget>[
+        children: [
           QRView(
             key: qrKey,
             onQRViewCreated: _onQRViewCreated,
           ),
           Center(
-            child: SpinKitRing(
-              color: Theme.of(context).primaryColor,
-              lineWidth: 3,
+            child: Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: _isQRCodeDetected ? Colors.green : Colors.white,
+                  width: 5.0,
+                ),
+              ),
+              child: _isQRCodeDetected
+                  ? const SpinKitRing(
+                color: Colors.green,
+                lineWidth: 4,
+                size: 100,
+              )
+                  : null,
             ),
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _controller?.toggleFlash();
+        },
+        child: const Icon(Icons.flash_on),
+      ),
     );
   }
+
 }

@@ -25,6 +25,7 @@ class HomePage extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => QRScannerPage(
                             isInbound: true,
+                            isMoving: false,
                           ),
                         ),
                       );
@@ -50,6 +51,7 @@ class HomePage extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => QRScannerPage(
                             isInbound: false,
+                            isMoving: false,
                           ),
                         ),
                       );
@@ -77,7 +79,8 @@ class HomePage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => QRScannerPage(
-                      isInbound: null,
+                      isInbound: false,
+                      isMoving: true,
                     ),
                   ),
                 );

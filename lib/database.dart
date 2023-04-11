@@ -22,7 +22,9 @@ Future<void> addOrUpdateItem(String code, String locationKey) async {
   final conn = await _getConnection();
   try {
     await conn.query(
-      'UPDATE `VMStset`.`VMS_TestDB` SET `관리번호` = ? WHERE `LocationKey` = ?',
+      // 'UPDATE `VMStset`.`UW1_재고` SET `관리번호` = ? WHERE `LocationKey` = ?',
+      'UPDATE `VMStset`.`UW1_재고_Eng` SET `관리번호` = ? WHERE `LocationKey` = ?',
+
       [code, locationKey],
     );
   } finally {
@@ -34,7 +36,9 @@ Future<void> setItemAsOutbound(String code) async {
   final conn = await _getConnection();
   try {
     await conn.query(
-      'UPDATE `VMStset`.`VMS_TestDB` SET `관리번호` = "" WHERE `관리번호` = ?',
+      // "UPDATE `VMStset`.`UW1_재고` SET `관리번호` = '' WHERE `관리번호` = ?",
+      "UPDATE `VMStset`.`UW1_재고_Eng` SET `관리번호` = '' WHERE `관리번호` = ?",
+
       [code],
     );
   } finally {
@@ -48,7 +52,9 @@ Future<List<String>> getEmptySpaces() async {
 
   try {
     final results = await conn.query(
-      'SELECT `LocationKey` FROM `VMStset`.`VMS_TestDB` WHERE `관리번호` = ""',
+      // "SELECT `LocationKey` FROM `VMStset`.`UW1_재고` WHERE `관리번호` = ''",
+      "SELECT `LocationKey` FROM `VMStset`.`UW1_재고_Eng` WHERE `관리번호` = ''",
+
     );
 
     for (var row in results) {
@@ -66,13 +72,17 @@ Future<void> moveItem(String code, String newLocationKey) async {
   try {
     // Set the 관리번호 to an empty string in the old location
     await conn.query(
-      'UPDATE `VMStset`.`VMS_TestDB` SET `관리번호` = "" WHERE `관리번호` = ?',
+      // "UPDATE `VMStset`.`UW1_재고` SET `관리번호` = '' WHERE `관리번호` = ?",
+      "UPDATE `VMStset`.`UW1_재고_Eng` SET `관리번호` = '' WHERE `관리번호` = ?",
+
       [code],
     );
 
     // Update the 관리번호 in the new location
     await conn.query(
-      'UPDATE `VMStset`.`VMS_TestDB` SET `관리번호` = ? WHERE `LocationKey` = ?',
+      // 'UPDATE `VMStset`.`UW1_재고` SET `관리번호` = ? WHERE `LocationKey` = ?',
+      'UPDATE `VMStset`.`UW1_재고_Eng` SET `관리번호` = ? WHERE `LocationKey` = ?',
+
       [code, newLocationKey],
     );
   } finally {
