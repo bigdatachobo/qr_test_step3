@@ -122,11 +122,11 @@ $ flutter project/android/app/src/main/AndroidManifest.xml
 
 #### `info.plist`
 
-```plist
+```
 <dict>
 	...
 
-	<!-- Permission options for the `location` group -->
+<!-- Permission options for the `location` group -->
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Need location when in use</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
