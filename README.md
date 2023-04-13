@@ -18,8 +18,7 @@ samples, guidance on mobile development, and a full API reference.
 ## App Release 권한관리
 
 `출처`
-- [[Flutter] 앱 권한 관리하기(permission_handler)](https://velog.io/@error/Flutter-%EC%95%B1-%EA%B6%8C%ED%99%98-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0){:target="_blank" rel="noopener"}
-
+- [[Flutter] 앱 권한 관리하기(permission_handler)](https://velog.io/@error/Flutter-%EC%95%B1-%EA%B6%8C%ED%99%98-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0)
 ### 패키지 설치
 
 ```yaml
