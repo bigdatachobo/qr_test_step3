@@ -32,10 +32,14 @@ dependencies:
 flutter project/android/app/build.gradle
 ```
 
+#### 변경할 라인
+- `compileSdkVersion 33`
+- `minSdkVersion 20`
+
 ```
 android {
     namespace "com.example.qr_test_step3"
-    `compileSdkVersion 33`
+    compileSdkVersion 33
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -56,7 +60,7 @@ android {
         applicationId "com.example.qr_test_step3"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        `minSdkVersion 20`
+        minSdkVersion 20
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
