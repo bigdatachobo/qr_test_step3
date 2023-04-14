@@ -26,6 +26,43 @@ dependencies:
   permission_handler: ^10.0.0
 ```
 
+### build.gradle 설정
+
+```bash
+flutter project/android/app/build.gradle
+```
+
+```
+android {
+    namespace "com.example.qr_test_step3"
+    `compileSdkVersion 33`
+    ndkVersion flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "com.example.qr_test_step3"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+        `minSdkVersion 20`
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+```
+
 ### Android 권한관리
 `AndroidManifest.xml`
 
