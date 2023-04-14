@@ -70,9 +70,9 @@ android {
 ### Android 권한관리
 `AndroidManifest.xml`
 
-```bash
+```
 # 파일 
-$ flutter project/android/app/src/main/AndroidManifest.xml
+<flutter project>/android/app/src/main/AndroidManifest.xml
 ```
 
 #### 권한 관련 삽입 문구
